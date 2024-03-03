@@ -16,5 +16,15 @@ class ProcessJobs:
     def get_unique_job_types(self) -> List[str]:
         return list(set(job['job_type'] for job in self.jobs_list))
 
-    def filter_by_multiple_criteria(self) -> List[dict]:
-        pass
+    def filter_by_multiple_criteria(
+        self, jobs: List[dict], filters: dict
+    ) -> List[dict]:
+        if not isinstance(filters, dict):
+            raise TypeError
+
+        filtered_jobs = [
+            job
+            for job in jobs
+            if all(job.get(key) == value for key, value in filters.items())
+        ]
+        return filtered_jobs
