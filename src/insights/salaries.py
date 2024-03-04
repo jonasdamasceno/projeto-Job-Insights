@@ -14,8 +14,13 @@ class ProcessSalaries(ProcessJobs):
         )
         return max_salary if max_salary is not None else None
 
-    def get_min_salary(self) -> int:
-        pass
+    def get_min_salary(self) -> Optional[int]:
+        min_salary = min(
+            int(job["min_salary"])
+            for job in self.jobs_list
+            if job.get("min_salary", "").isdigit()
+        )
+        return min_salary if min_salary is not None else None
 
     def matches_salary_range(self, job: Dict, salary: Union[int, str]) -> bool:
         pass
